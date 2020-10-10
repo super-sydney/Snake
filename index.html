@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body onkeypress="updateKey(event);">
+  <style>
+    button {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+
+  <canvas id="canvas" width="700" height="700"></canvas>
+  <button style="top: 30%;left: 85%;" onclick="key = 119">↑</button>
+  <button style="top: 40%;left: 80%;" onclick="key = 97">←</button>
+  <button style="top: 40%;left: 90%;" onclick="key = 100">→</button>
+  <button style="top: 50%;left: 85%;" onclick="key = 115">↓</button>
+  <script src="snake.js" charset="utf-8"></script>
+  <script src="index.js" charset="utf-8"></script>
+</body>
+
+</html>
