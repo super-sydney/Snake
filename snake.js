@@ -1,11 +1,12 @@
+//draw a rotated image
 function drawImage(src, x, y, angle) {
   let image = new Image();
   image.src = src;
 
-  let cx = x + (spd / 2);
-  let cy = y + (spd / 2);
+  let cx = x + (squareSize / 2); //coords for center of the square
+  let cy = y + (squareSize / 2);
 
-  if (angle == -1) {
+  if (angle == -1) { //decide angle based on last pressed key
     switch (key) {
       case 119: //W
         angle = 0;
@@ -22,10 +23,11 @@ function drawImage(src, x, y, angle) {
     }
   }
 
+  //a mess, but it works
   c.translate(cx, cy);
   c.rotate(angle * (Math.PI / 180));
 
-  c.drawImage(image, -spd / 2, -spd / 2, spd, spd);
+  c.drawImage(image, -squareSize / 2, -squareSize / 2, squareSize, squareSize);
 
   c.rotate(-angle * (Math.PI / 180));
   c.translate(-cx, -cy);
@@ -56,14 +58,13 @@ class Snake {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.score = 5;
+    this.score = 2; //starting score/body length
   }
 
   update() {
     let angle = 0;
-    switch (key) {
-      case 119: //W
-        angle = 0;
+    switch (key) { //what angle should the next body part be?
+      case 119: //W, default is 0
         break;
       case 115: //S
         angle = 180;
@@ -78,36 +79,36 @@ class Snake {
 
     body.push(new Body(this.x, this.y, this.score, angle));
 
-    switch (key) {
+    switch (key) { //moving
       case 119: //W
-        this.y -= spd;
+        this.y -= squareSize;
         break;
       case 115: //S
-        this.y += spd;
+        this.y += squareSize;
         break
       case 97: //A
-        this.x -= spd;
+        this.x -= squareSize;
         break;
       case 100: //D
-        this.x += spd;
+        this.x += squareSize;
         break;
     }
 
-    for (var a of apples) {
+    for (let a of food) { //check if youre touching an apple
       if (this.x == a.x && this.y == a.y && !a.collected) {
         this.score++;
-        a.newApple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1));
+        a.newFish(squareSize * random(0, gridSize - 1), squareSize * random(0, gridSize - 1));
       }
     }
 
-    let lost = false;
-    for (var b of body) {
+    let lost = false; //check if youre touching a body part
+    for (let b of body) {
       if (b.x == this.x && b.y == this.y) {
         lost = true;
       }
     }
 
-    if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height || lost) {
+    if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height || lost) { //out of bounds or touhcing self
       window.alert("You lost!\nReload to play again");
     }
 
@@ -118,7 +119,7 @@ class Snake {
   }
 }
 
-class Apple {
+class Fish {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -129,22 +130,22 @@ class Apple {
     drawImage("img/fish.png", this.x, this.y, 0);
   }
 
-  newApple(x, y) {
+  newFish(x, y) {
     this.collected = true;
 
     if (this.coordsWrong(x, y)) {
-      this.newApple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1));
+      this.newFish(squareSize * random(0, gridSize - 1), squareSize * random(0, gridSize - 1)); //try again
     } else {
-      apples.push(new Apple(x, y));
+      food.push(new Fish(x, y));
     }
   }
 
-  coordsWrong(x, y) {
+  coordsWrong(x, y) { //make sure not to spawn inside the head/body
     if (x == snake.x && y == snake.y) {
       return true;
     }
 
-    for (var b of body) {
+    for (let b of body) {
       if (x == b.x && y == b.y) {
         return true;
       }
