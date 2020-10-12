@@ -96,8 +96,7 @@ class Snake {
     for (var a of apples) {
       if (this.x == a.x && this.y == a.y && !a.collected) {
         this.score++;
-        a.collected = true;
-        apples.push(new Apple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1)));
+        a.newApple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1));
       }
     }
 
@@ -127,7 +126,30 @@ class Apple {
   }
 
   draw() {
-    c.fillStyle = "red";
-    c.fillRect(this.x, this.y, spd, spd);
+    drawImage("img/fish.png", this.x, this.y, 0);
+  }
+
+  newApple(x, y) {
+    this.collected = true;
+
+    if (this.coordsWrong(x, y)) {
+      this.newApple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1));
+    } else {
+      apples.push(new Apple(x, y));
+    }
+  }
+
+  coordsWrong(x, y) {
+    if (x == snake.x && y == snake.y) {
+      return true;
+    }
+
+    for (var b of body) {
+      if (x == b.x && y == b.y) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
