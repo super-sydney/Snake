@@ -2,7 +2,7 @@ canvas = document.getElementById("canvas");
 c = canvas.getContext("2d");
 key = 97;
 
-const gridSize = 20; //amount of blocks that make up the canvas
+const gridSize = 10; //amount of blocks that make up the canvas
 const spd = canvas.width / gridSize; //length of one block
 if (spd != Math.round(spd)) {
   window.alert("canvas size should be divisible by length of each block");
