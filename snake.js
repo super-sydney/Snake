@@ -109,7 +109,7 @@ class Snake {
     }
 
     if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height || lost) {
-      //window.alert("You lost!\nReload to play again");
+      window.alert("You lost!\nReload to play again");
     }
 
   }

@@ -2,8 +2,11 @@ canvas = document.getElementById("canvas");
 c = canvas.getContext("2d");
 key = 97;
 
-const gridSize = 20; //sidelength of square
-const spd = canvas.width / gridSize;
+const gridSize = 20; //amount of blocks that make up the canvas
+const spd = canvas.width / gridSize; //length of one block
+if (spd != Math.round(spd)) {
+  window.alert("canvas size should be divisible by length of each block");
+}
 const snake = new Snake(spd * gridSize / 2, spd * gridSize / 2);
 var apples = [new Apple(spd * random(0, gridSize - 1), spd * random(0, gridSize - 1))]
 var body = [];
@@ -28,11 +31,11 @@ setInterval(function() {
 
     apples = apples.filter(a => !a.collected);
 
-    for (var i = 0; i < spd; i++) {
+    for (var i = 0; i < gridSize; i++) {
       c.moveTo(i * spd, 0);
       c.lineTo(i * spd, canvas.height);
     }
-    for (var i = 0; i < spd; i++) {
+    for (var i = 0; i < gridSize; i++) {
       c.moveTo(0, i * spd);
       c.lineTo(canvas.width, i * spd);
     }
@@ -60,4 +63,4 @@ setInterval(function() {
     body = tmp;
     tmp = [];
   },
-  500 / Math.pow(snake.score, 1 / 3));
+  500);
