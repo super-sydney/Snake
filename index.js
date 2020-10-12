@@ -10,7 +10,9 @@ var body = [];
 var tmp = [];
 
 function updateKey(e) {
-  key = e.keyCode;
+  if (e.keyCode == 97 || e.keyCode == 100 || e.keyCode == 115 || e.keyCode == 119) {
+    key = e.keyCode;
+  }
 }
 
 function random(begin, end) { //rounded
@@ -19,7 +21,7 @@ function random(begin, end) { //rounded
 
 setInterval(function() {
     c.fillStyle = "white";
-    c.fillRect(0, 0, 1000, 1000);
+    c.fillRect(0, 0, canvas.width, canvas.height);
 
     c.strokeStyle = "black";
     c.beginPath();
